@@ -41,7 +41,7 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-            Console.Write("Welcome To The Code Generator :");
+            Console.Write("Welcome To The Code Generator (PageName Dtos Events => sepratos whit ,):");
 
             string[] readLine = Console.ReadLine().Split(' ');
             string className = readLine[0];

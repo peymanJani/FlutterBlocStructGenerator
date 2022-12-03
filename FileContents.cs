@@ -254,15 +254,17 @@ class {0}Initial extends {0}State {{
             {
                 dtoList += string.Format("import '../../../models/{0}.dart';" + "\r\n" + "import '../../../services/{0}_service.dart';", ToUnderscoreCase(item)) + "\r\n";
                 getApiList += string.Format(@"
-get{0}s()async {{
+  get{0}s()async {{
      
-List<{0}> result = await serviceManager.userService.get{0}s();
-       add(state?.copyWidth(data: result, action: {1}Actions.get{0}FindAlls));
-}}
-get{0}ById(id)async {{
-    {0} result = serviceManager.userService.get{0}ById(id: id);
-    add(state?.copyWidth(data: result, action: {1}Actions.get{0}ById));
-}}
+    await serviceManager.userService.get{0}s( res: ({isSuccess, msg, result}) {
+        isSuccess! ? add(state?.copyWidth(data: result, action: {1}Actions.get{0}FindAlls , msg: msg)) :  null;
+    });
+  }}
+  get{0}ById(id)async {{
+    await serviceManager.userService.get{0}ById(id: id ,  res: ({isSuccess, msg, result}) {
+        isSuccess! ? add(state?.copyWidth(data: result, action: {1}Actions.get{0}ById , msg: msg)) :  null;
+    });
+  }}
 
 
 ", item, entityName  ) + "\r\n";
@@ -305,13 +307,16 @@ class {0}RepositoryStatus implements BaseRepositoryStatus<{0}Actions> {{
   @override
   {0}Actions? action;
 
+  @override
+  String? msg;
+
   dynamic data;
 
-  {0}RepositoryStatus({{this.action, this.data}});
+  {0}RepositoryStatus({{this.action, this.data , this.msg}});
 
-  {0}RepositoryStatus copyWidth({{{0}Actions? action, dynamic data}}) {{
+  {0}RepositoryStatus copyWidth({{{0}Actions? action, dynamic data , String? msg}}) {{
     return {0}RepositoryStatus(
-        action: action ?? this.action, data: data ?? this.data);
+        action: action ?? this.action, data: data ?? this.data , msg: msg);
   }}
 }}
 
