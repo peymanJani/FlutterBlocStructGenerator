@@ -1,0 +1,6 @@
+C:\Users\JaniDev\Source\Repos\FlutterBlocStructGenerator\bin\Release\ConsoleApp1.exe.config
+C:\Users\JaniDev\Source\Repos\FlutterBlocStructGenerator\bin\Release\ConsoleApp1.exe
+C:\Users\JaniDev\Source\Repos\FlutterBlocStructGenerator\bin\Release\ConsoleApp1.pdb
+C:\Users\JaniDev\Source\Repos\FlutterBlocStructGenerator\obj\Release\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\JaniDev\Source\Repos\FlutterBlocStructGenerator\obj\Release\ConsoleApp1.exe
+C:\Users\JaniDev\Source\Repos\FlutterBlocStructGenerator\obj\Release\ConsoleApp1.pdb

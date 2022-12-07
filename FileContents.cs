@@ -39,6 +39,8 @@ namespace ConsoleApp1
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import '../../../base_class/base_state.dart';
+
 import '../{5}_repository.dart';
 import '../../../base_class/base_bloc.dart';
 import '../../../base_class/base_repository.dart';
@@ -186,7 +188,7 @@ export '{0}_widget.dart';", ToUnderscoreCase(entityName), eventFunctions);
             return result;
         }
 
-        public static string StateFile(string entityName,string[] dto, string[] events)
+        public static string StateFile(string entityName,string[] dto, string[] events , string[] stateItems)
         {
             string dtoList = "";
             string dtoItem = "";
@@ -202,11 +204,30 @@ export '{0}_widget.dart';", ToUnderscoreCase(entityName), eventFunctions);
                 props += string.Format(@"{0}s,{0},", item.ToLower()) + "\r\n";
                 copyItems += string.Format("{1}s: {1}s ?? this.{1}s," + "\r\n" + " {1}: {1} ?? this.{1},", item, item.ToLower()) + "\r\n";
             }
-           
-            
+           foreach (var item in stateItems)
+           {
+               var type = item.Split(':').First();
+               var key = item.Split(':').Last().ToCamelCase();
+                dtoList += string.Format("{0}? {1};", type, key) + "\r\n";
+                constructor += string.Format(@"this.{0},", key) + "\r\n";
+                props += string.Format(@"{0},", key) + "\r\n";
+                copyItems += string.Format(" {1}: {1} ?? this.{1},", item, key) + "\r\n";
+            }
+
+           constructor += string.Format(@"this.{0},this.{1}", "msg","status") + "\r\n";
+           props += string.Format(@"{0},{1},", "msg", "status") + "\r\n";
+           copyItems += string.Format("{0}: {0} ?? this.{0}," + "\r\n" + " {1}: {1} ?? this.{1},", "msg", "status") + "\r\n";
+
+
             string result = string.Format(@"part of '{3}_bloc.dart';
 
-class {0}State extends Equatable {{
+class {0}State extends Equatable implements BaseState{{
+
+  @override
+  Status? status;
+
+  @override
+  String? msg;
   {1}
   {5}
 
@@ -256,28 +277,28 @@ class {0}Initial extends {0}State {{
                 getApiList += string.Format(@"
   get{0}s()async {{
      
-    await serviceManager.userService.get{0}s( res: ({isSuccess, msg, result}) {
-        isSuccess! ? add(state?.copyWidth(data: result, action: {1}Actions.get{0}FindAlls , msg: msg)) :  null;
-    });
+    await serviceManager.userService.get{0}s( res: ({{isSuccess, msg, result}}) {{
+        isSuccess! ? add(state?.copyWith(data: result, action: {1}Actions.get{0}FindAlls , msg: msg)) :  null;
+    }});
   }}
   get{0}ById(id)async {{
-    await serviceManager.userService.get{0}ById(id: id ,  res: ({isSuccess, msg, result}) {
-        isSuccess! ? add(state?.copyWidth(data: result, action: {1}Actions.get{0}ById , msg: msg)) :  null;
-    });
+    await serviceManager.userService.get{0}ById(id: id ,  res: ({{isSuccess, msg, result}}) {{
+        isSuccess! ? add(state?.copyWith(data: result, action: {1}Actions.get{0}ById , msg: msg)) :  null;
+    }});
   }}
 
 
 ", item, entityName  ) + "\r\n";
                 serverSuccessResponseDto += string.Format(@"if (result.str == apis.get{1}ById) {{
          
-          add(state?.copyWidth(
+          add(state?.copyWith(
               data: {1}.fromJson, action: {0}Actions.get{1}ById));
         }}", entityName, item
      , ToUnderscoreCase(entityName)) + "\r\n";
                 serverSuccessResponseList += string.Format(@"if (result.str == apis.get{1}FindAlls) {{
           var dataList = BaseModelResponseList<{1}>.fromJson(
               result.value, {1}.fromJson);
-          add(state?.copyWidth(
+          add(state?.copyWith(
               data: dataList.data, action: {0}Actions.get{1}FindAlls));
         }}", entityName, item 
        , ToUnderscoreCase(entityName)) + "\r\n";
@@ -314,7 +335,8 @@ class {0}RepositoryStatus implements BaseRepositoryStatus<{0}Actions> {{
 
   {0}RepositoryStatus({{this.action, this.data , this.msg}});
 
-  {0}RepositoryStatus copyWidth({{{0}Actions? action, dynamic data , String? msg}}) {{
+  @override
+  {0}RepositoryStatus copyWith({{{0}Actions? action, dynamic data , String? msg}}) {{
     return {0}RepositoryStatus(
         action: action ?? this.action, data: data ?? this.data , msg: msg);
   }}
@@ -335,4 +357,11 @@ enum {0}Actions {{
     }
 
 
+}
+public static class StringExtension
+{
+    public static string ToCamelCase(this string str) =>
+        string.IsNullOrEmpty(str) || str.Length < 2
+            ? str.ToLowerInvariant()
+            : char.ToLowerInvariant(str[0]) + str.Substring(1);
 }

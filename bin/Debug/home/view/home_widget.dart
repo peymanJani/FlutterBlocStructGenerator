@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import '../../../../base_class/base_widget.dart';
 
-class SplashNewWidget extends BaseStateLess {
+class HomeWidget extends BaseStateLess {
 
 
   @override

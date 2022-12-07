@@ -1,29 +1,29 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../splash_repository.dart';
-import '../bloc/splash_bloc.dart';
-import 'splash_widget.dart';
+import '../home_repository.dart';
+import '../bloc/home_bloc.dart';
+import 'home_widget.dart';
 import '../../../constants/colors.dart';
 import '../../../services/service_manager.dart';
 
 
 
-class SplashPage extends StatelessWidget {
-  static String getRout = 'Splash';
+class HomePage extends StatelessWidget {
+  static String getRout = 'Home';
 
-  SplashPage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.backgroundColor,
         body: BlocProvider(
-          create: (_) => SplashBloc(
-              repository: SplashRepository(
+          create: (_) => HomeBloc(
+              repository: HomeRepository(
                  serviceManager: context.read<ServiceManager>()),
-              initialState: SplashInitial()),
-          child: SplashWidget(),
+              initialState: HomeInitial()),
+          child: HomeWidget(),
         ));
   }
 }

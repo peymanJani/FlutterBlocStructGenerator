@@ -41,12 +41,13 @@ namespace ConsoleApp1
 
         static void Main(string[] args)
         {
-            Console.Write("Welcome To The Code Generator (PageName Dtos Events => sepratos whit ,):");
+            Console.Write("Welcome To The Code Generator (PageName Dtos Events bool:item(For State) => sepratos whit ,):");
 
             string[] readLine = Console.ReadLine().Split(' ');
             string className = readLine[0];
             string[] dtos = readLine[1].Split(',');
             string[] events = readLine[2].Split(',');
+            string[] stateItems = readLine[3].Split(',');
             //string[] dto = readLine[3].Split(',');
 
             string fileName = "";
@@ -109,7 +110,7 @@ namespace ConsoleApp1
 
             #region state
             fileName = blocDirectoryName + "/" + snacCaseClassName + "_state.dart";
-            text = FileContents.StateFile(className, dtos, events);
+            text = FileContents.StateFile(className, dtos, events , stateItems);
             CreateFile(fileName, text);
             #endregion
 
