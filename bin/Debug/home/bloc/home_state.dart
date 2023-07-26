@@ -8,15 +8,18 @@ class HomeState extends Equatable implements BaseState{
   @override
   String? msg;
   List<User>? users;
-int? pageIndex;
+List<AppSetting>? appsettings;
+List<HomeItem>? homeItems;
 
   User? user;
+AppSetting? appsetting;
 
 
   HomeState(
   {
   this.users,this.user,
-this.pageIndex,
+this.appsettings,this.appsetting,
+this.homeItems,
 this.msg,this.status
 
   });
@@ -24,23 +27,27 @@ this.msg,this.status
   @override
   List<Object?> get props => [
         users,user,
-pageIndex,
+appsettings,appsetting,
+homeItems,
 msg,status,
 
       ];
 
 HomeState copyWith({
     List<User>? users,
-int? pageIndex,
+List<AppSetting>? appsettings,
+List<HomeItem>? homeItems,
 
     User? user,
+AppSetting? appsetting,
     
   }) {
     return HomeState(
       users: users ?? this.users,
  user: user ?? this.user,
-pageIndexs: pageIndexs ?? this.pageIndexs,
- pageIndex: pageIndex ?? this.pageIndex,
+appsettings: appsettings ?? this.appsettings,
+ appsetting: appsetting ?? this.appsetting,
+ homeItems: homeItems ?? this.homeItems,
 msg: msg ?? this.msg,
  status: status ?? this.status,
 

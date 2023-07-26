@@ -214,9 +214,9 @@ export '{0}_widget.dart';", ToUnderscoreCase(entityName), eventFunctions);
                 copyItems += string.Format(" {1}: {1} ?? this.{1},", item, key) + "\r\n";
             }
 
-           constructor += string.Format(@"this.{0},this.{1}", "msg","status") + "\r\n";
-           props += string.Format(@"{0},{1},", "msg", "status") + "\r\n";
-           copyItems += string.Format("{0}: {0} ?? this.{0}," + "\r\n" + " {1}: {1} ?? this.{1},", "msg", "status") + "\r\n";
+           constructor += string.Format(@"this.{0},this.{1},this.{2}", "msg","status" , "nextPageRout") + "\r\n";
+           props += string.Format(@"{0},{1},{2}", "msg", "status","nextPageRout") + "\r\n";
+           copyItems += string.Format("{0}: {0} ?? this.{0}," + "\r\n" + " {1}: {1} ?? this.{1}," + " {2}: {2} ?? this.{2},", "msg", "status","nextPageRout") + "\r\n";
 
 
             string result = string.Format(@"part of '{3}_bloc.dart';
@@ -225,6 +225,9 @@ class {0}State extends Equatable implements BaseState{{
 
   @override
   Status? status;
+
+  @override
+  String? nextPageRout;
 
   @override
   String? msg;
