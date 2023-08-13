@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\bin",
+    "\\bin\\Debug"
   ],
-  "SelectedNode": "\\ConsoleApp1.sln",
+  "SelectedNode": "\\bin\\Debug",
   "PreviewInSolutionExplorer": false
 }

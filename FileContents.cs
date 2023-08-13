@@ -19,7 +19,7 @@ namespace ConsoleApp1
                 var item = dto[i];
               
                
-                dtoList += string.Format("import '../../../models/{0}.dart';", ToUnderscoreCase(item)) +  "\r\n";
+                dtoList += string.Format("import '../../../../models/{0}.dart';", ToUnderscoreCase(item)) +  "\r\n";
                 dtoCopyWith += string.Format(@" {3}if (event?.action == {0}Actions.get{1}FindAlls) {{
         emit(state.copyWith({2}s: event?.data));
       }}", entityName, item, item.ToLower() , (i > 0 ? "else " : "")) + "\r\n"; ;
@@ -39,11 +39,11 @@ namespace ConsoleApp1
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../../base_class/base_state.dart';
+import '../../../../base_class/base_state.dart';
 
 import '../{5}_repository.dart';
-import '../../../base_class/base_bloc.dart';
-import '../../../base_class/base_repository.dart';
+import '../../../../base_class/base_bloc.dart';
+import '../../../../base_class/base_repository.dart';
 
 {1}
 
@@ -83,8 +83,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../{1}_repository.dart';
 import '../bloc/{1}_bloc.dart';
 import '{1}_widget.dart';
-import '../../../constants/colors.dart';
-import '../../../services/service_manager.dart';
+import '../../../../constants/colors.dart';
+import '../../../../services/service_manager.dart';
 
 
 
@@ -334,14 +334,17 @@ class {0}RepositoryStatus implements BaseRepositoryStatus<{0}Actions> {{
   @override
   String? msg;
 
+  @override
+  int? status;
+
   dynamic data;
 
-  {0}RepositoryStatus({{this.action, this.data , this.msg}});
+  {0}RepositoryStatus({{this.action, this.data , this.msg,this.status}});
 
   @override
-  {0}RepositoryStatus copyWith({{{0}Actions? action, dynamic data , String? msg}}) {{
+  {0}RepositoryStatus copyWith({{{0}Actions? action, dynamic data , String? msg ,  int? status}}) {{
     return {0}RepositoryStatus(
-        action: action ?? this.action, data: data ?? this.data , msg: msg);
+        action: action ?? this.action, data: data ?? this.data , msg: msg , status: status);
   }}
 }}
 
